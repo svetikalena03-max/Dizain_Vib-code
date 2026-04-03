@@ -14,6 +14,9 @@
   --accent-2: #5eead4;
   --accent-warm: #ffc29a;
   --accent-glow: rgba(201, 184, 255, 0.28);
+  /* Оттенок с фото (платье) — лёгкая связка с портретом */
+  --photo-green: #1b4d3e;
+  --photo-green-glow: rgba(27, 77, 62, 0.45);
   --font-display: "Syne", system-ui, sans-serif;
   --font-body: "DM Sans", system-ui, sans-serif;
   /* Единая система заголовков (кроме h1.hero-title) */
@@ -207,29 +210,123 @@ main {
   opacity: 0.95;
 }
 
-/* === Hero: h1 без изменений по заданию === */
+/* === Hero: сетка + портрет; h1.hero-title без изменения шкалы === */
 .hero {
   padding: clamp(2rem, 6vw, 4rem) 0 clamp(3rem, 8vw, 5rem);
   border-bottom: 1px solid var(--border);
   position: relative;
+  overflow: hidden;
 }
 
 .hero::after {
   content: "";
   position: absolute;
-  right: -8%;
-  top: 15%;
-  width: min(42vw, 380px);
-  height: min(42vw, 380px);
+  right: -5%;
+  top: 8%;
+  width: min(48vw, 420px);
+  height: min(48vw, 420px);
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(201, 184, 255, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(201, 184, 255, 0.1) 0%, rgba(27, 77, 62, 0.12) 35%, transparent 68%);
   pointer-events: none;
   z-index: 0;
 }
 
-.hero > * {
+.hero-inner {
   position: relative;
   z-index: 1;
+  display: grid;
+  gap: clamp(2rem, 5vw, 3rem);
+  align-items: center;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .hero-inner {
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 0.38fr);
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+}
+
+.hero-copy {
+  min-width: 0;
+}
+
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+@media (max-width: 899px) {
+  .hero-visual {
+    order: -1;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.hero-photo-frame {
+  position: relative;
+  margin: 0;
+  width: 100%;
+  max-width: min(100%, 380px);
+  border-radius: calc(var(--radius) + 4px);
+  padding: 3px;
+  overflow: hidden;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 194, 154, 0.55) 0%,
+    rgba(201, 184, 255, 0.5) 38%,
+    rgba(27, 77, 62, 0.65) 72%,
+    rgba(94, 234, 212, 0.45) 100%
+  );
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 24px 64px rgba(0, 0, 0, 0.45),
+    0 0 80px rgba(201, 184, 255, 0.12),
+    0 0 60px var(--photo-green-glow);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-photo-frame {
+    transition: transform 0.45s var(--ease-out), box-shadow 0.45s ease;
+  }
+
+  .hero-photo-frame:hover {
+    transform: translateY(-5px);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.12),
+      0 32px 72px rgba(0, 0, 0, 0.5),
+      0 0 100px rgba(201, 184, 255, 0.16),
+      0 0 72px var(--photo-green-glow);
+  }
+}
+
+.hero-photo-glow {
+  position: absolute;
+  inset: -12%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 45% 40%,
+    rgba(201, 184, 255, 0.2) 0%,
+    rgba(27, 77, 62, 0.15) 42%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-photo {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  object-position: center 12%;
+  border-radius: calc(var(--radius) - 2px);
 }
 
 .eyebrow {
@@ -304,28 +401,45 @@ main {
 
 /* Входная анимация героя */
 @media (prefers-reduced-motion: no-preference) {
-  .hero .eyebrow,
-  .hero .hero-title,
-  .hero .hero-lead,
-  .hero .hero-actions {
+  .hero-copy .eyebrow,
+  .hero-copy .hero-title,
+  .hero-copy .hero-lead,
+  .hero-copy .hero-actions {
     opacity: 0;
     animation: riseIn 0.9s var(--ease-out) forwards;
   }
 
-  .hero .eyebrow {
+  .hero-copy .eyebrow {
     animation-delay: 0.06s;
   }
 
-  .hero .hero-title {
+  .hero-copy .hero-title {
     animation-delay: 0.16s;
   }
 
-  .hero .hero-lead {
+  .hero-copy .hero-lead {
     animation-delay: 0.3s;
   }
 
-  .hero .hero-actions {
+  .hero-copy .hero-actions {
     animation-delay: 0.42s;
+  }
+
+  .hero-visual {
+    opacity: 0;
+    animation: heroPhotoIn 1s var(--ease-out) 0.12s forwards;
+  }
+}
+
+@keyframes heroPhotoIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
