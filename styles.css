@@ -1102,6 +1102,11 @@ main {
     padding: 1rem 1.25rem;
   }
 
+  .site-header-brand {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
   .nav {
     flex-wrap: wrap;
     justify-content: center;

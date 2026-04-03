@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="metallic-paint.css">
 </head>
 <body>
   <script>document.documentElement.classList.add("js");</script>
@@ -16,7 +17,40 @@
   <div class="noise" aria-hidden="true"></div>
 
   <header class="site-header">
-    <a class="logo" href="#">Vibe Coder</a>
+    <div class="site-header-brand">
+      <div
+        class="metallic-paint-wrap"
+        data-metallic-paint
+        data-image="images/metallic-logo.svg"
+        data-seed="42"
+        data-scale="4"
+        data-pattern-sharpness="1"
+        data-noise-scale="0.5"
+        data-speed="0.3"
+        data-liquid="0.75"
+        data-mouse-animation="false"
+        data-brightness="2"
+        data-contrast="0.5"
+        data-refraction="0.01"
+        data-blur="0.015"
+        data-chromatic-spread="2"
+        data-fresnel="1"
+        data-angle="0"
+        data-wave-amplitude="1"
+        data-distortion="1"
+        data-contour="0.2"
+        data-light-color="#ffffff"
+        data-dark-color="#000000"
+        data-tint-color="#c9b8ff"
+        style="width:52px;height:52px"
+        role="img"
+        aria-label="Металлический знак Vibe Coder"
+      >
+        <canvas class="paint-container" aria-hidden="true"></canvas>
+        <img class="metallic-paint__static" src="images/metallic-logo.svg" alt="" width="64" height="64" decoding="async">
+      </div>
+      <a class="logo" href="#">Vibe Coder</a>
+    </div>
     <nav class="nav">
       <a href="#projects">Проекты</a>
       <a href="#approach">Подход</a>
@@ -251,6 +285,7 @@
   <footer class="site-footer reveal-section">
     <p>Vibe Coder · Web &amp; AI Experiences</p>
   </footer>
+  <script src="metallic-paint.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="text-type-hero.js"></script>
   <script src="animations.js"></script>
