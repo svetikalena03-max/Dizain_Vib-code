@@ -1,0 +1,8 @@
+{
+  "name": "dizain-vib-code",
+  "private": true,
+  "description": "Статический сайт; gsap опционально для локального копирования вместо CDN",
+  "dependencies": {
+    "gsap": "^3.12.5"
+  }
+}
