@@ -1,21 +1,30 @@
-/* === Vibe Coder — portfolio theme === */
+/* === Vibe Coder — editorial dark + unified Syne headings ===
+   Главный экран: .hero-title — зафиксирован отдельно (не трогать шкалу). */
+
 :root {
-  --bg-deep: #07060d;
-  --bg-card: rgba(18, 16, 28, 0.72);
-  --bg-card-hover: rgba(28, 24, 42, 0.85);
-  --border: rgba(255, 255, 255, 0.08);
+  --bg-deep: #050508;
+  --bg-elevated: rgba(14, 12, 22, 0.88);
+  --bg-card: rgba(16, 14, 26, 0.78);
+  --bg-card-hover: rgba(26, 22, 40, 0.9);
+  --border: rgba(255, 255, 255, 0.07);
   --border-strong: rgba(255, 255, 255, 0.14);
-  --text: #eceaf2;
-  --text-muted: rgba(236, 234, 242, 0.62);
-  --accent: #c4a5ff;
+  --text: #f2f0f8;
+  --text-muted: rgba(242, 240, 248, 0.58);
+  --accent: #c9b8ff;
   --accent-2: #5eead4;
-  --accent-glow: rgba(196, 165, 255, 0.35);
+  --accent-warm: #ffc29a;
+  --accent-glow: rgba(201, 184, 255, 0.28);
   --font-display: "Syne", system-ui, sans-serif;
   --font-body: "DM Sans", system-ui, sans-serif;
-  --radius: 16px;
+  /* Единая система заголовков (кроме h1.hero-title) */
+  --head-track-hero: -0.04em;
+  --head-track: -0.04em;
+  --head-track-sm: -0.035em;
+  --radius: 18px;
   --radius-sm: 10px;
   --max: 1120px;
   --header-h: 72px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 *,
@@ -26,6 +35,20 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 body {
@@ -39,14 +62,16 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Фон: меш + диагональный акцент (не «фиолет на белом») */
 .bg-gradient {
   position: fixed;
   inset: 0;
   z-index: -2;
   background:
-    radial-gradient(ellipse 100% 80% at 50% -20%, rgba(196, 165, 255, 0.22), transparent 55%),
-    radial-gradient(ellipse 70% 50% at 100% 40%, rgba(94, 234, 212, 0.08), transparent 50%),
-    radial-gradient(ellipse 60% 40% at 0% 80%, rgba(196, 165, 255, 0.1), transparent 45%),
+    radial-gradient(ellipse 90% 70% at 8% 0%, rgba(255, 194, 154, 0.09), transparent 50%),
+    radial-gradient(ellipse 80% 60% at 92% 15%, rgba(201, 184, 255, 0.14), transparent 52%),
+    radial-gradient(ellipse 70% 55% at 50% 100%, rgba(94, 234, 212, 0.06), transparent 50%),
+    radial-gradient(ellipse 100% 50% at 50% -30%, rgba(201, 184, 255, 0.18), transparent 55%),
     var(--bg-deep);
 }
 
@@ -55,11 +80,24 @@ body {
   inset: 0;
   z-index: -1;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: linear-gradient(to bottom, black 0%, transparent 85%);
+    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 72px 72px;
+  transform: rotate(-0.4deg) scale(1.02);
+  transform-origin: center top;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 88%);
   pointer-events: none;
+}
+
+/* Зернистость (атмосфера, SKILL) */
+.noise {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.055;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* Header */
@@ -73,9 +111,9 @@ body {
   max-width: var(--max);
   margin: 0 auto;
   padding: 1rem 1.5rem;
-  height: var(--header-h);
-  background: linear-gradient(to bottom, rgba(7, 6, 13, 0.92), rgba(7, 6, 13, 0.75));
-  backdrop-filter: blur(12px);
+  min-height: var(--header-h);
+  background: linear-gradient(to bottom, rgba(5, 5, 8, 0.94), rgba(5, 5, 8, 0.72));
+  backdrop-filter: blur(14px) saturate(1.2);
   border-bottom: 1px solid var(--border);
 }
 
@@ -83,13 +121,18 @@ body {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: 1.125rem;
-  letter-spacing: -0.02em;
-  color: var(--text);
+  letter-spacing: var(--head-track);
+  line-height: 1.1;
   text-decoration: none;
-  background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+  background: linear-gradient(120deg, var(--text) 0%, var(--accent) 45%, var(--accent-warm) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  transition: filter 0.25s var(--ease-out);
+}
+
+.logo:hover {
+  filter: brightness(1.08);
 }
 
 .nav {
@@ -115,15 +158,15 @@ body {
   border-radius: 999px;
   border: 1px solid var(--border-strong);
   color: var(--text) !important;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.035);
 }
 
 .nav-cta:hover {
-  border-color: var(--accent);
-  box-shadow: 0 0 24px var(--accent-glow);
+  border-color: var(--accent-2);
+  box-shadow: 0 0 28px rgba(94, 234, 212, 0.15);
 }
 
-/* Main layout */
+/* Main */
 main {
   max-width: var(--max);
   margin: 0 auto;
@@ -139,26 +182,61 @@ main {
   border-bottom: none;
 }
 
+/* Секционные h2 — тот же Syne и трекинг, что у героя, иерархия через размер */
 .section-title {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(1.75rem, 4vw, 2.35rem);
-  letter-spacing: -0.03em;
-  line-height: 1.2;
+  font-weight: 800;
+  font-size: clamp(1.65rem, 3.8vw, 2.25rem);
+  letter-spacing: var(--head-track);
+  line-height: 1.12;
   margin: 0 0 2rem;
-  max-width: 28ch;
+  max-width: 22ch;
+  position: relative;
+  padding-left: 1.35rem;
 }
 
-/* Hero */
+.section-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.12em;
+  bottom: 0.12em;
+  width: 3px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--accent-warm), var(--accent), var(--accent-2));
+  opacity: 0.95;
+}
+
+/* === Hero: h1 без изменений по заданию === */
 .hero {
   padding: clamp(2rem, 6vw, 4rem) 0 clamp(3rem, 8vw, 5rem);
   border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  right: -8%;
+  top: 15%;
+  width: min(42vw, 380px);
+  height: min(42vw, 380px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 184, 255, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
 }
 
 .eyebrow {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--accent-2);
   margin: 0 0 1.5rem;
@@ -169,7 +247,7 @@ main {
   font-weight: 800;
   font-size: clamp(2rem, 5.5vw, 3.35rem);
   line-height: 1.08;
-  letter-spacing: -0.04em;
+  letter-spacing: var(--head-track-hero);
   margin: 0 0 1.5rem;
   max-width: 18ch;
 }
@@ -198,19 +276,19 @@ main {
   text-decoration: none;
   border-radius: 999px;
   border: 1px solid transparent;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  transition: transform 0.25s var(--ease-out), box-shadow 0.25s ease, border-color 0.2s ease, background 0.2s ease;
 }
 
 .btn-primary {
   color: #0a0810;
-  background: linear-gradient(135deg, var(--accent) 0%, #e8d4ff 50%, var(--accent-2) 100%);
+  background: linear-gradient(125deg, var(--accent-warm) 0%, var(--accent) 42%, #e8deff 55%, var(--accent-2) 100%);
   background-size: 200% 200%;
-  box-shadow: 0 0 40px var(--accent-glow);
+  box-shadow: 0 0 36px var(--accent-glow);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 40px var(--accent-glow);
+  box-shadow: 0 10px 44px var(--accent-glow);
 }
 
 .btn-ghost {
@@ -221,10 +299,49 @@ main {
 
 .btn-ghost:hover {
   border-color: var(--accent);
-  background: rgba(196, 165, 255, 0.08);
+  background: rgba(201, 184, 255, 0.1);
 }
 
-/* Prose & lists */
+/* Входная анимация героя */
+@media (prefers-reduced-motion: no-preference) {
+  .hero .eyebrow,
+  .hero .hero-title,
+  .hero .hero-lead,
+  .hero .hero-actions {
+    opacity: 0;
+    animation: riseIn 0.9s var(--ease-out) forwards;
+  }
+
+  .hero .eyebrow {
+    animation-delay: 0.06s;
+  }
+
+  .hero .hero-title {
+    animation-delay: 0.16s;
+  }
+
+  .hero .hero-lead {
+    animation-delay: 0.3s;
+  }
+
+  .hero .hero-actions {
+    animation-delay: 0.42s;
+  }
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Prose */
 .prose p {
   margin: 0 0 1rem;
   color: var(--text-muted);
@@ -257,29 +374,31 @@ main {
   content: "—";
   position: absolute;
   left: 0;
-  color: var(--accent);
+  color: var(--accent-warm);
 }
 
-/* Cards grid */
+/* Карточки — заголовки Syne 700, тот же трекинг-модуль */
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: 1.35rem;
 }
 
 .card {
-  padding: 1.5rem 1.5rem 1.65rem;
+  padding: 1.6rem 1.5rem 1.7rem;
   border-radius: var(--radius);
   border: 1px solid var(--border);
   background: var(--bg-card);
-  backdrop-filter: blur(10px);
-  transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+  backdrop-filter: blur(12px);
+  transition: border-color 0.3s var(--ease-out), background 0.3s ease, transform 0.3s var(--ease-out), box-shadow 0.3s ease;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
 }
 
 .card:hover {
-  border-color: rgba(196, 165, 255, 0.35);
+  border-color: rgba(201, 184, 255, 0.32);
   background: var(--bg-card-hover);
-  transform: translateY(-3px);
+  transform: translateY(-4px) rotate(-0.25deg);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
 }
 
 .card-title {
@@ -287,7 +406,8 @@ main {
   font-weight: 700;
   font-size: 1.125rem;
   margin: 0 0 0.65rem;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--head-track-sm);
+  line-height: 1.2;
 }
 
 .card-text {
@@ -297,14 +417,14 @@ main {
   line-height: 1.6;
 }
 
-/* Steps */
+/* Шаги */
 .steps {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.35rem;
 }
 
 .step {
@@ -315,7 +435,12 @@ main {
   padding: 1.5rem 1.75rem;
   border-radius: var(--radius);
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.02);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+  transition: border-color 0.25s ease;
+}
+
+.step:hover {
+  border-color: rgba(255, 194, 154, 0.2);
 }
 
 .step-num {
@@ -323,7 +448,8 @@ main {
   font-weight: 800;
   font-size: 1.5rem;
   line-height: 1;
-  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  letter-spacing: var(--head-track-sm);
+  background: linear-gradient(165deg, var(--accent-warm), var(--accent), var(--accent-2));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -332,9 +458,10 @@ main {
 .step-body h3 {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.125rem;
   margin: 0 0 0.5rem;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--head-track-sm);
+  line-height: 1.2;
 }
 
 .step-body p {
@@ -344,31 +471,41 @@ main {
   max-width: 58ch;
 }
 
-/* Projects */
+/* Проекты */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr));
+  gap: 1.35rem;
 }
 
 .project-card {
   padding: 1.5rem;
   border-radius: var(--radius);
   border: 1px solid var(--border);
-  background: linear-gradient(160deg, rgba(196, 165, 255, 0.06) 0%, var(--bg-card) 45%);
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  background: linear-gradient(155deg, rgba(255, 194, 154, 0.05) 0%, var(--bg-card) 48%);
+  transition: border-color 0.3s ease, box-shadow 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+}
+
+.project-card:nth-child(even) {
+  transform: rotate(0.2deg);
+}
+
+.project-card:nth-child(even):hover {
+  transform: rotate(0deg) translateY(-3px);
 }
 
 .project-card:hover {
-  border-color: rgba(94, 234, 212, 0.25);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  border-color: rgba(94, 234, 212, 0.28);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.38);
+  transform: translateY(-3px);
 }
 
 .project-tag {
   display: inline-block;
-  font-size: 0.7rem;
+  font-family: var(--font-display);
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--accent-2);
   margin-bottom: 0.75rem;
@@ -379,7 +516,8 @@ main {
   font-weight: 700;
   font-size: 1.2rem;
   margin: 0 0 0.65rem;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--head-track-sm);
+  line-height: 1.18;
 }
 
 .project-desc,
@@ -403,18 +541,20 @@ main {
 /* Why */
 .why-highlight {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 800;
   font-size: 1.05rem;
+  letter-spacing: var(--head-track-sm);
+  line-height: 1.35;
   color: var(--text) !important;
   margin-top: 1.5rem !important;
   padding: 1rem 1.25rem;
   border-radius: var(--radius-sm);
   border-left: 3px solid var(--accent);
-  background: rgba(196, 165, 255, 0.08);
+  background: linear-gradient(90deg, rgba(201, 184, 255, 0.1), rgba(255, 194, 154, 0.05));
   max-width: 100% !important;
 }
 
-/* Stack badges */
+/* Stack */
 .badges {
   display: flex;
   flex-wrap: wrap;
@@ -429,15 +569,16 @@ main {
   font-weight: 600;
   border-radius: 999px;
   border: 1px solid var(--border-strong);
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.035);
   color: var(--text-muted);
-  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.2s var(--ease-out);
 }
 
 .badge:hover {
   color: var(--text);
-  border-color: var(--accent);
-  background: rgba(196, 165, 255, 0.1);
+  border-color: var(--accent-warm);
+  background: rgba(255, 194, 154, 0.08);
+  transform: translateY(-1px);
 }
 
 .stack-note {
@@ -464,6 +605,12 @@ main {
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.02);
   color: var(--text-muted);
+  transition: border-color 0.2s ease, padding-left 0.25s var(--ease-out);
+}
+
+.audience-list li:hover {
+  border-color: rgba(201, 184, 255, 0.25);
+  padding-left: 2.65rem;
 }
 
 .audience-list li::before {
@@ -472,9 +619,10 @@ main {
   left: 1rem;
   color: var(--accent-2);
   font-weight: 700;
+  font-family: var(--font-display);
 }
 
-/* Quote */
+/* Цитата — крупный Syne как у системы заголовков */
 .quote-block {
   padding: clamp(3rem, 10vw, 5.5rem) 0;
   margin: 0;
@@ -483,18 +631,36 @@ main {
 
 .manifest {
   margin: 0;
-  padding: clamp(2rem, 5vw, 3rem);
+  padding: clamp(2.25rem, 5vw, 3.25rem) clamp(1.5rem, 4vw, 2.5rem) clamp(2.25rem, 5vw, 3.25rem) clamp(2rem, 6vw, 4rem);
   border-radius: var(--radius);
-  border: 1px solid rgba(196, 165, 255, 0.2);
-  background: radial-gradient(ellipse at 30% 0%, rgba(196, 165, 255, 0.12), transparent 60%);
+  border: 1px solid rgba(201, 184, 255, 0.22);
+  background:
+    radial-gradient(ellipse 80% 60% at 0% 0%, rgba(255, 194, 154, 0.1), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 100% 100%, rgba(94, 234, 212, 0.08), transparent 50%),
+    rgba(14, 12, 22, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.manifest::after {
+  content: "";
+  position: absolute;
+  top: -40%;
+  right: -15%;
+  width: 55%;
+  height: 120%;
+  background: linear-gradient(210deg, rgba(201, 184, 255, 0.06), transparent);
+  pointer-events: none;
 }
 
 .manifest p {
+  position: relative;
+  z-index: 1;
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 800;
   font-size: clamp(1.35rem, 3.5vw, 2rem);
-  line-height: 1.35;
-  letter-spacing: -0.03em;
+  line-height: 1.28;
+  letter-spacing: var(--head-track);
   margin: 0 0 1rem;
   color: var(--text);
 }
@@ -502,24 +668,43 @@ main {
 .manifest p:last-child {
   margin-bottom: 0;
   color: var(--text-muted);
-  font-weight: 600;
-  font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+  font-weight: 700;
+  font-size: clamp(1.05rem, 2.4vw, 1.4rem);
+  letter-spacing: var(--head-track-sm);
 }
 
-/* Final CTA */
+/* Финальный CTA */
 .cta-final {
   text-align: center;
   border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.cta-final::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: min(90%, 520px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
+  opacity: 0.35;
 }
 
 .cta-final .section-title {
-  max-width: 32ch;
+  max-width: 36ch;
   margin-left: auto;
   margin-right: auto;
+  padding-left: 0;
+}
+
+.cta-final .section-title::before {
+  display: none;
 }
 
 .cta-title {
-  font-size: clamp(1.6rem, 3.8vw, 2.2rem) !important;
+  font-size: clamp(1.55rem, 3.6vw, 2.15rem) !important;
 }
 
 .cta-text {
@@ -532,7 +717,11 @@ main {
   justify-content: center;
 }
 
-/* Contact */
+/* Контакты */
+.section.contact .section-title {
+  max-width: none;
+}
+
 .contact-grid {
   display: grid;
   gap: 2rem;
@@ -540,7 +729,7 @@ main {
 
 @media (min-width: 640px) {
   .contact-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1.1fr;
     align-items: start;
   }
 }
@@ -558,15 +747,16 @@ main {
 }
 
 .contact-links a:hover {
-  color: var(--accent);
-  border-color: var(--accent);
+  color: var(--accent-warm);
+  border-color: var(--accent-warm);
 }
 
 .social-label {
   display: block;
-  font-size: 0.75rem;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-muted);
   margin-bottom: 0.75rem;
@@ -604,7 +794,7 @@ main {
   color: var(--text-muted);
 }
 
-/* Mobile nav */
+/* Mobile */
 @media (max-width: 560px) {
   .site-header {
     flex-direction: column;
@@ -619,6 +809,10 @@ main {
     gap: 1rem;
   }
 
+  .section-title {
+    padding-left: 1.1rem;
+  }
+
   .step {
     grid-template-columns: 1fr;
     gap: 0.75rem;
@@ -626,5 +820,9 @@ main {
 
   .step-num {
     font-size: 1.25rem;
+  }
+
+  .project-card:nth-child(even) {
+    transform: none;
   }
 }
