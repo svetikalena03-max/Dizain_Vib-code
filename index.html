@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <script>document.documentElement.classList.add("js");</script>
   <div class="bg-gradient" aria-hidden="true"></div>
   <div class="bg-grid" aria-hidden="true"></div>
   <div class="noise" aria-hidden="true"></div>
@@ -52,7 +53,7 @@
       </div>
     </section>
 
-    <section class="section about" id="about">
+    <section class="section about reveal-section" id="about">
       <h2 class="section-title">Я не просто пишу код — я собираю впечатление</h2>
       <div class="about-text prose">
         <p>Я работаю на стыке кода, визуала, UX и AI-инструментов.</p>
@@ -71,7 +72,7 @@
       </div>
     </section>
 
-    <section class="section skills" id="skills">
+    <section class="section skills reveal-section" id="skills">
       <h2 class="section-title">Что я делаю</h2>
       <div class="cards-grid">
         <article class="card">
@@ -101,7 +102,7 @@
       </div>
     </section>
 
-    <section class="section approach" id="approach">
+    <section class="section approach reveal-section" id="approach">
       <h2 class="section-title">Как я работаю</h2>
       <ol class="steps">
         <li class="step">
@@ -128,7 +129,7 @@
       </ol>
     </section>
 
-    <section class="section projects" id="projects">
+    <section class="section projects reveal-section" id="projects">
       <h2 class="section-title">Избранные проекты</h2>
       <div class="projects-grid">
         <article class="project-card">
@@ -158,7 +159,7 @@
       </div>
     </section>
 
-    <section class="section why" id="why">
+    <section class="section why reveal-section" id="why">
       <h2 class="section-title">Почему ко мне идут не просто за кодом</h2>
       <div class="why-content prose">
         <p>Потому что я умею видеть проект целиком.</p>
@@ -178,7 +179,7 @@
       </div>
     </section>
 
-    <section class="section stack" id="stack">
+    <section class="section stack reveal-section" id="stack">
       <h2 class="section-title">Инструменты</h2>
       <div class="badges">
         <span class="badge">ChatGPT</span>
@@ -194,7 +195,7 @@
       <p class="stack-note">Но если честно — главный инструмент не стек, а вкус, насмотренность и умение собирать цельное впечатление.</p>
     </section>
 
-    <section class="section audience" id="audience">
+    <section class="section audience reveal-section" id="audience">
       <h2 class="section-title">Кому подойдёт моя работа</h2>
       <ul class="audience-list">
         <li>экспертам</li>
@@ -207,14 +208,14 @@
       </ul>
     </section>
 
-    <section class="quote-block" aria-label="Манифест">
+    <section class="quote-block reveal-section" aria-label="Манифест">
       <blockquote class="manifest">
         <p>Хороший сайт — это не когда «нормально сверстано».</p>
         <p>Это когда у проекта появляется энергия, форма и ощущение, что он живой.</p>
       </blockquote>
     </section>
 
-    <section class="section cta-final" id="cta">
+    <section class="section cta-final reveal-section" id="cta">
       <h2 class="section-title cta-title">Если тебе нужен сайт, который выглядит сильно и ощущается современно — давай соберём</h2>
       <p class="cta-text">Могу помочь с концепцией, структурой, упаковкой и реализацией. От первого вайба до готовой страницы.</p>
       <div class="hero-actions">
@@ -223,7 +224,7 @@
       </div>
     </section>
 
-    <section class="section contact" id="contact">
+    <section class="section contact reveal-section" id="contact">
       <h2 class="section-title">Контакты</h2>
       <div class="contact-grid">
         <div class="contact-links">
@@ -244,8 +245,9 @@
     </section>
   </main>
 
-  <footer class="site-footer">
+  <footer class="site-footer reveal-section">
     <p>Vibe Coder · Web &amp; AI Experiences</p>
   </footer>
+  <script src="animations.js"></script>
 </body>
 </html>
