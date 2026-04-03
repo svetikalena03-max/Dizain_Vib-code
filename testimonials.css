@@ -1,0 +1,223 @@
+/* Отзывы — скролл-стек карточек */
+.testimonials-section {
+  position: relative;
+  border-bottom: 1px solid var(--border, rgba(255, 255, 255, 0.07));
+  background: linear-gradient(
+    180deg,
+    rgba(201, 184, 255, 0.04) 0%,
+    transparent 45%,
+    rgba(94, 234, 212, 0.03) 100%
+  );
+}
+
+.testimonials-section .section-title {
+  max-width: none;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0;
+}
+
+.testimonials-section .section-title::before {
+  display: none;
+}
+
+.testimonials-intro {
+  text-align: center;
+  margin-bottom: 2rem;
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.testimonials-lead {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-muted, rgba(242, 240, 248, 0.58));
+  line-height: 1.6;
+}
+
+.testimonials-scroller {
+  /* Длина прокрутки под 4 карточки: у каждой есть «свой» участок скролла */
+  height: min(320vh, 2800px);
+  position: relative;
+}
+
+.testimonials-sticky {
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem 4rem;
+  box-sizing: border-box;
+}
+
+.testimonials-stack {
+  position: relative;
+  width: min(92vw, 380px);
+  /* Высота зоны, чтобы нижние карточки не обрезались при смещении */
+  height: min(72vh, 560px);
+  overflow: visible;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.testimonial-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  max-width: 360px;
+  min-height: 420px;
+  padding: 1.75rem 1.5rem 1.5rem;
+  border-radius: var(--radius, 18px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(16, 14, 26, 0.94);
+  backdrop-filter: blur(16px);
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(201, 184, 255, 0.06) inset;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.25rem;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+  transition: box-shadow 0.3s ease;
+}
+
+.testimonial-card__top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+.review-stars {
+  display: flex;
+  gap: 0.2rem;
+  font-size: 1.15rem;
+  line-height: 1;
+  color: var(--accent-2, #5eead4);
+}
+
+.review-stars .star {
+  display: inline-block;
+}
+
+.review-stars .star--dim {
+  color: rgba(94, 234, 212, 0.28);
+}
+
+.testimonial-card blockquote {
+  margin: 0;
+  font-family: var(--font-body, "DM Sans", sans-serif);
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: var(--text, #f2f0f8);
+  font-style: italic;
+}
+
+.testimonial-card__footer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.testimonial-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.testimonial-meta {
+  min-width: 0;
+  text-align: left;
+}
+
+.testimonial-name {
+  display: block;
+  font-family: var(--font-display, "Syne", sans-serif);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  color: var(--text, #f2f0f8);
+}
+
+.testimonial-role {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted, rgba(242, 240, 248, 0.55));
+  margin-top: 0.15rem;
+}
+
+.testimonials-hint {
+  margin: 1.5rem 0 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted, rgba(242, 240, 248, 0.45));
+}
+
+.testimonials-section.testimonials--static .testimonials-scroller {
+  height: auto;
+}
+
+.testimonials-section.testimonials--static .testimonials-sticky {
+  position: relative;
+  min-height: unset;
+  padding-bottom: 2rem;
+}
+
+.testimonials-section.testimonials--static .testimonials-stack {
+  height: auto;
+  min-height: 480px;
+  perspective: none;
+}
+
+.testimonials-section.testimonials--static .testimonial-card {
+  position: relative;
+  left: auto;
+  top: auto;
+  margin: 0 auto 1rem;
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+.star--half-wrap {
+  display: inline-block;
+  width: 0.52em;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+@media (max-width: 560px) {
+  .testimonials-scroller {
+    height: min(300vh, 2400px);
+  }
+
+  .testimonials-stack {
+    height: min(68vh, 520px);
+  }
+
+  .testimonial-card {
+    min-height: 400px;
+    padding: 1.5rem 1.25rem;
+  }
+
+  .testimonial-card blockquote {
+    font-size: 0.95rem;
+  }
+}
